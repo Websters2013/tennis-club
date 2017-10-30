@@ -1,0 +1,28 @@
+.btn {
+  border: none;
+  width: 173px;
+  line-height: 49px;
+  @include main-font3;
+  font-size: 16px;
+  color: $color-1;
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: $color-2;
+  text-transform: uppercase;
+  transition: background .25s linear;
+  border-radius: 100px;
+
+
+  &:hover {
+    background: $color-3;
+  }
+
+  &:active {
+    background: $color-4;
+  }
+
+}
+

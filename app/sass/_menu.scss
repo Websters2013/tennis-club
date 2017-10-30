@@ -1,0 +1,138 @@
+%menu-btn {
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: $color-2;
+  border-radius: 10px;
+  opacity: 1;
+  transform: rotate(0deg);
+  transition: .25s ease-in-out;
+}
+.menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: $color-1;
+  z-index: 100;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(-100%);
+  transition: translateX .5s linear, opacity .5s linear;
+  opacity: 0;
+
+  ul {
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+
+    a {
+      line-height: 49px;
+      @include main-font1();
+      font-size: 14px;
+      text-align: center;
+      color: $color-5;
+      text-transform: uppercase;
+
+
+      &.btn {
+        color: $color-1;
+        @include main-font3;
+        font-size: 16px;
+        letter-spacing: -1px;
+        margin-top: 12px;
+      }
+    }
+  }
+
+  &__btn {
+    display: block;
+    width: 25px;
+    height: 16px;
+    position: relative;
+    transform: rotate(0deg);
+    transition: .5s ease-in-out;
+    cursor: pointer;
+    z-index: 4;
+    span {
+      @extend %menu-btn;
+      top: 0;
+      &:before {
+        top: 6px;
+        content: '';
+        @extend %menu-btn;
+      }
+      &:after {
+        top: 12px;
+        content: '';
+        @extend %menu-btn;
+      }
+    }
+    &:hover {
+      span,
+      span:after,
+      span:before {
+        background: $color-3;
+      }
+    }
+  }
+
+  &.mobile {
+    transform: translateX(0);
+    opacity: 1;
+
+    & + .menu__btn {
+      position: fixed;
+      top: 30px;
+      right: 20px;
+      z-index: 110;
+
+      span {
+        top: $btn-nav-top;
+        transform: rotate(135deg);
+
+        &:before {
+          opacity: 0;
+          left: 6px;
+          margin: 40px;
+          transform: rotate(-135deg);
+          transition: .5s ease-in-out;
+        }
+        &:after {
+          top: 0;
+          transform: rotate(-90deg);
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $tablet-landscape) {
+  .menu {
+    position: static;
+    transform: translateX(0);
+    opacity: 1;
+
+    &__btn {
+      display: none;
+
+    }
+
+    ul {
+      flex-flow: row wrap;
+
+      a {
+        margin-left: 31px;
+
+        &.btn {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}

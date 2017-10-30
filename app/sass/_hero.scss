@@ -1,0 +1,87 @@
+.hero {
+  width: 100%;
+  height: calc(100vh - 80px);
+  background-repeat:no-repeat;
+  background-position: 50%;
+  background-size: cover;
+  position: relative;
+  @include main-font2;
+  color: $color-1;
+  min-height: 568px;
+
+  &__bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    @include siteWidth;
+    background-color: $color-6;
+    height: 202px;
+    z-index: 2;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
+    h3 {
+      letter-spacing: -.7px;
+      line-height: 28px;
+      font-size: 22px;
+      text-align: center;
+      font-weight: 100;
+
+      small {
+        display: block;
+        font-size: 14px;
+        line-height: 35px;
+      }
+    }
+
+    .btn {
+      margin-top: 10px;
+    }
+  }
+
+  h2 {
+    font-size: 30px;
+    line-height: 48px;
+    text-align: center;
+    padding-top: 5%;
+    font-weight: 100;
+    letter-spacing: -1.6px;
+  }
+
+}
+
+@media (min-width: $tablet-landscape) {
+  .hero {
+    height: calc(891px - 117px);
+    background-position: 50% 101%;
+
+    h2{
+      font-size: 64px;
+      line-height: 78px;
+    }
+
+    &__bottom {
+      flex-flow: row;
+
+      h3 {
+        line-height: 48px;
+        font-size: 32px;
+        padding-right: 78px;
+
+        small {
+          font-size: 20px;
+          line-height: 35px;
+        }
+      }
+
+      .btn {
+        position: absolute;
+        right: calc(50% - 570px);
+        margin-top: 0;
+      }
+    }
+  }
+}

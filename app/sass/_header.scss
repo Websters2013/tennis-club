@@ -1,0 +1,27 @@
+.header {
+  height: 80px;
+  background-color: $color-1;
+  display: flex;
+  flex-flow: row nowrap;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  justify-content: space-between;
+  align-items:center;
+  @include siteWidth;
+  transition: height .2s linear;
+
+  .logo {
+
+    svg {
+      width: 200px;
+    }
+  }
+}
+
+@media (min-width: $tablet-landscape) {
+  .header {
+    height: 117px;
+  }
+}
