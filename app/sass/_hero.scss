@@ -25,15 +25,18 @@
 
     h3 {
       letter-spacing: -.7px;
-      line-height: 28px;
-      font-size: 22px;
+      line-height: 8vw;
+      font-size: 6vw;
       text-align: center;
       font-weight: 100;
 
       small {
         display: block;
-        font-size: 14px;
-        line-height: 35px;
+        font-size: 4vw;
+        line-height: 10vw;
+        @include main-font1;
+        word-spacing: 4px;
+        letter-spacing: -0.2px;
       }
     }
 
@@ -43,8 +46,8 @@
   }
 
   h2 {
-    font-size: 30px;
-    line-height: 48px;
+    font-size: 9vw;
+    line-height: 14vw;
     text-align: center;
     padding-top: 5%;
     font-weight: 100;
@@ -53,10 +56,34 @@
 
 }
 
+@media (min-width: $phone-landscape) {
+  .hero {
+
+    h2{
+      font-size: 50px;
+      line-height: 68px;
+    }
+
+    &__bottom {
+
+      h3 {
+        line-height: 37px;
+        font-size: 28px;
+
+        small {
+          font-size: 20px;
+          line-height: 25px;
+        }
+      }
+    }
+  }
+}
 @media (min-width: $tablet-landscape) {
   .hero {
     height: calc(891px - 117px);
-    background-position: 50% 101%;
+    background-position: 50% -53px;
+    transition: background-position .02s linear;
+   // background-attachment: fixed;
 
     h2{
       font-size: 64px;
@@ -73,9 +100,15 @@
 
         small {
           font-size: 20px;
-          line-height: 35px;
+          line-height: 25px;
         }
       }
+    }
+  }
+}
+@media (min-width: $desktop) {
+  .hero {
+    &__bottom {
 
       .btn {
         position: absolute;

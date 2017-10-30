@@ -30,6 +30,7 @@
 
                     }}
                 );
+
                 _window.on(
                     { 'resize' : function () {
 
@@ -39,6 +40,23 @@
 
                     }}
                 );
+
+                if(_window.width() <= 992) {
+
+                    _window.swipe({
+                        swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                           switch (direction) {
+                               case 'left':
+                                   _menu.removeClass('mobile');
+                                   break;
+                               case 'right':
+                                   _menu.addClass('mobile');
+                                   break;
+                           }
+                        }  
+                    });
+
+                }
 
             },
             _construct = function () {
@@ -56,13 +74,22 @@
 
                     _window.on(
                         { 'scroll': function () {
-                        //console.log(_window.scrollTop() ,_obj.position(), _obj.height());
-                            console.log(_obj.position()['top'] < _window.scrollTop());
-                        if(_obj.position()['top'] < _window.scrollTop()) {
-                            _obj.css("background-position","50% " + (_window.scrollTop() / 2) + "px");
+                        console.log(_window.scrollTop() ,_obj.position(), _obj.height());
+                            //console.log(_obj.position()['top'] - 20 < _window.scrollTop());
+                        if(_obj.position()['top'] - 40 < _window.scrollTop()) {
+                            _obj.css("background-position","50% calc(-53px + " + (_window.scrollTop() / _obj.data('speed')) + "px)");
+                        } else {
+                            _obj.css("background-position","50% -53px");
                         }
+                        }},
+                        { 'mousewheel': function (e) {
+                            if ( _canUseSmoothScroll ) {
+                                event.preventDefault();
 
+                                _siteScroll( event );
 
+                            }
+                            return false;
                         }}
                     );
 

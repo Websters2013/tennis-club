@@ -6,7 +6,6 @@
   border-radius: 10px;
   opacity: 1;
   transform: rotate(0deg);
-  transition: .25s ease-in-out;
 }
 .menu {
   position: fixed;
@@ -21,7 +20,7 @@
   justify-content: center;
   align-items: center;
   transform: translateX(-100%);
-  transition: translateX .5s linear, opacity .5s linear;
+  transition: transform .5s linear, opacity .5s linear;
   opacity: 0;
 
   ul {
@@ -62,15 +61,20 @@
     span {
       @extend %menu-btn;
       top: 0;
+      transition: .25s ease-in-out;
+
       &:before {
         top: 6px;
         content: '';
         @extend %menu-btn;
+        transition: transform 0.5s ease-in-out,opacity 0.5s ease-in-out,margin 0.5s ease-in-out,background 0.5s cubic-bezier(0.57, 1.42, 0, 4.05);
       }
+
       &:after {
         top: 12px;
         content: '';
         @extend %menu-btn;
+        transition: .25s ease-in-out;
       }
     }
     &:hover {
@@ -99,9 +103,12 @@
         &:before {
           opacity: 0;
           left: 6px;
+          height: 15px;
+          width: 15px;
           margin: 40px;
+          background: $color-7;
           transform: rotate(-135deg);
-          transition: .5s ease-in-out;
+         // transition: transform .5s ease-in-out, opacity.5s ease-in-out, margin .5s ease-in-out, background .5s cubic-bezier(0.43, 0.35, 0.29, 1.58);
         }
         &:after {
           top: 0;
