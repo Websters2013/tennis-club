@@ -6,8 +6,8 @@
             new Menu($(this));
         });
 
-        $.each($('.paralax'), function () {
-            new Paralax($(this));
+        $.each($('.site'), function () {
+            new Site($(this));
         });
     });
     
@@ -36,64 +36,151 @@
 
                         if(_menu.width() < window.innerWidth) {
                             _menu.removeClass('mobile');
+                        } else {
+                            _menuSwipe();
                         }
 
                     }}
                 );
 
-                if(_window.width() <= 992) {
+            },
 
-                    _window.swipe({
-                        swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
-                           switch (direction) {
-                               case 'left':
-                                   _menu.removeClass('mobile');
-                                   break;
-                               case 'right':
-                                   _menu.addClass('mobile');
-                                   break;
-                           }
-                        }  
-                    });
+            _menuSwipe = function () {
+                var _rate = _window.width()/100;
+                _window.swipe( {
+                    swipeStatus:function(event, phase, direction, distance, duration, fingers, fingerData, currentDirection)
+                    {
+                        var currentDistance = distance / _rate;
+                        switch (direction) {
+                            case 'left':
+                                if(_menu.hasClass('mobile')) {
 
-                }
+                                    if(phase === 'move' && currentDistance < 100) {
+                                        _menu.css({
+                                            'transform': 'translateX(' + -currentDistance + '%)',
+                                            'opacity': 1 - currentDistance / 100
+                                        });
+                                    }
+                                    if(currentDistance === 100 || ((phase === 'cancel' || phase === 'end') && distance/2 > 48) ) {
+                                        _menu.removeClass('mobile');
+                                        _menu.css({'transform':'','opacity':''});
+                                    }
+                                    if((phase === 'cancel' || phase === 'end') && currentDistance < 48) {
+                                        _menu.css({'transform':'','opacity':''});
+                                    }
 
+
+
+                                }
+                                break;
+                            case 'right':
+                                if(!_menu.hasClass('mobile')) {
+
+                                    if(phase === 'move' && currentDistance < 100 ) {
+                                        _menu.css({
+                                            'transform': 'translateX(' + (-100 + currentDistance) + '%)',
+                                            'opacity': currentDistance / 100
+                                        });
+                                    }
+                                    if(currentDistance === 100 || ((phase === 'cancel' || phase === 'end') && currentDistance > 48) ) {
+                                        _menu.addClass('mobile');
+                                        _menu.css({'transform': '','opacity':''});
+                                    }
+                                    if((phase === 'cancel' || phase === 'end') && currentDistance < 48) {
+                                        _menu.css({'transform': '','opacity':''});
+                                    }
+
+                                }
+                                break;
+                        }
+                    }
+                });
             },
             _construct = function () {
                 _onEvents();
+                _menuSwipe();
             };
 
         _construct();
     },
-        Paralax = function (obj) {
+        Site = function (obj) {
             var _self = this,
                 _obj = obj,
+                _canUseSmoothScroll = true,
+                _canMove = true,
                 _window = $( window );
 
             var _onEvents = function () {
 
-                    _window.on(
-                        { 'scroll': function () {
-                        console.log(_window.scrollTop() ,_obj.position(), _obj.height());
-                            //console.log(_obj.position()['top'] - 20 < _window.scrollTop());
-                        if(_obj.position()['top'] - 40 < _window.scrollTop()) {
-                            _obj.css("background-position","50% calc(-53px + " + (_window.scrollTop() / _obj.data('speed')) + "px)");
-                        } else {
-                            _obj.css("background-position","50% -53px");
-                        }
-                        }},
-                        { 'mousewheel': function (e) {
-                            if ( _canUseSmoothScroll ) {
+                    _window.on({
+                        'scroll': function () {
+                            var scrollTop = $(window).scrollTop();
+                            _move(scrollTop);
+                        },
+                        'mousewheel': function (event) {
+                            if (_canUseSmoothScroll) {
+                                event.preventDefault();
+                                _siteScroll(event);
+                            }
+                            return false;
+                        },
+                        'DOMMouseScroll': function (event) {
+                            if (_canUseSmoothScroll) {
                                 event.preventDefault();
 
-                                _siteScroll( event );
+                                _siteScroll(event);
 
                             }
                             return false;
-                        }}
-                    );
+                        }
+                    });
 
                 },
+                _siteScroll = function( event ) {
+                    var scrollTime = .5,
+                        scrollDistance = 125,
+                        delta = event.originalEvent.wheelDelta/120 || -event.originalEvent.detail/3,
+                        scrollTop = _window.scrollTop(),
+                        finalScroll = scrollTop - parseInt( delta * scrollDistance );
+
+                    var tweenMax = new TweenMax.to( _window, scrollTime, {
+                        scrollTo : { y: finalScroll, autoKill:true },
+                        ease: Power1.easeOut,
+                        overwrite: 5
+                    });
+
+                },
+                _move = function (scrollTop) {
+                    var winHeight = $(window).height();
+
+                    $('.parallax').each( function() {
+                        var curElem = $(this),
+                            curTop = curElem.offset().top,
+                            curHeight = curElem.height(),
+                            curKoef = 1 / curElem.data('speed');
+
+                        if ( ( scrollTop <= ( curTop + curHeight ) && ( ( winHeight + scrollTop ) >= curTop ) ) ) {
+
+                            if ( curTop < winHeight ) {
+                                _paralax( curElem, 0, scrollTop, curKoef);
+                            } else {
+                                _paralax( curElem, 0, scrollTop - (curTop - winHeight), curKoef);
+                            }
+                        }
+                    } );
+                },
+                _paralax = function( elem, x, y, koef ) {
+                    var translate = 'translate3d(' + Math.round(x*koef) + 'px, ' + Math.round(y*koef) + 'px, 0px )';
+
+                    if (!_canMove) {
+                        translate = 'translate3d(0px, 0px)';
+                    }
+
+                    elem.css( {
+                        'transform': translate
+                    } );
+                },
+
                 _construct = function () {
                     _onEvents();
                 };

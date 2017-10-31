@@ -1,13 +1,22 @@
 .hero {
   width: 100%;
   height: calc(100vh - 80px);
-  background-repeat:no-repeat;
-  background-position: 50%;
-  background-size: cover;
   position: relative;
   @include main-font2;
   color: $color-1;
-  min-height: 568px;
+  min-height: 488px;
+  overflow: hidden;
+
+  .parallax {
+    background-repeat:no-repeat;
+    background-position: 50%;
+    background-size: cover;
+    position: absolute;
+    top: -54px;
+    left: 1px;
+    bottom: 0;
+    right: 0;
+  }
 
   &__bottom {
     position: absolute;
@@ -52,6 +61,8 @@
     padding-top: 5%;
     font-weight: 100;
     letter-spacing: -1.6px;
+    z-index: 10;
+    position: relative;
   }
 
 }
@@ -81,9 +92,6 @@
 @media (min-width: $tablet-landscape) {
   .hero {
     height: calc(891px - 117px);
-    background-position: 50% -53px;
-    transition: background-position .02s linear;
-   // background-attachment: fixed;
 
     h2{
       font-size: 64px;
